@@ -85,43 +85,32 @@ const searchMatrix = (matrix, target) => {
 
 const answerQueries = (nums, queries) => {
     nums.sort((a, b) => a - b)
-    prefix = [nums[0]]
+    const prefix = [nums[0]]
+    const ans = []
+
     for (let i = 1; i < nums.length; i++) {
-        prefix.push(nums[i] + prefix[prefix.length - 1])
+        prefix.push(nums[i] + prefix.at(-1))
     }
 
-    let ans = []
-
-    for (let i = 0; i < queries.length; i++) {
-
-        let left = 0
-        let right = nums.length - 1
-        const target = queries[i]
+    for (query of queries) {
         let canPush = true
-
+        let left = 0
+        let right = prefix.length - 1
         while (left <= right) {
             const mid = Math.floor((right + left) / 2)
-
-            if (prefix[mid] === target) {
-                ans.push(mid + 1)
+            if (prefix[mid] === query) {
                 canPush = false
+                ans.push(mid + 1)
                 break
             }
-
-            if (prefix[mid] < target) left = mid + 1
-
+            else if (prefix[mid] > query) right = mid - 1
             else {
-                right = mid - 1
+                left = mid + 1
             }
-
         }
-
         if (canPush) ans.push(left)
-
     }
-
     return ans
 }
-
 
 
