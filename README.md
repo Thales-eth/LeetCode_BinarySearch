@@ -1,4 +1,4 @@
-# Stacks & Queues Problem Solutions
+# Binary Search Problem Solutions
 
 This repository contains solutions to Linked Lists problems from the LeetCode DS and Algo course.
 
