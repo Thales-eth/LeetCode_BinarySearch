@@ -113,4 +113,91 @@ const answerQueries = (nums, queries) => {
     return ans
 }
 
+// You have one chocolate bar that consists of some chunks. Each chunk has its own sweetness given by the array sweetness.
 
+// You want to share the chocolate with your k friends so you start cutting the chocolate bar into k + 1 pieces using k cuts, each piece consists of some consecutive chunks.
+
+// Being generous, you will eat the piece with the minimum total sweetness and give the other pieces to your friends.
+
+// Find the maximum total sweetness of the piece you can get by cutting the chocolate bar optimally.
+
+// Example 1:
+
+// Input: sweetness = [1,2,3,4,5,6,7,8,9], k = 5
+// Output: 6
+// Explanation: You can divide the chocolate to [1,2,3], [4,5], [6], [7], [8], [9]
+
+// https://leetcode.com/problems/divide-chocolate/description/
+
+function maximizeSweetness(sweetness, k) {
+    let chunks = k + 1
+    let left = Math.min(...sweetness)
+    let right = Math.floor(sweetness.reduce((acc, curr) => acc + curr) / chunks)
+
+    while (left < right) {
+        const mid = Math.floor((right + left + 1) / 2)
+
+        let fedPeople = 0
+        let sweetnessScore = 0
+
+        for (sweetValue of sweetness) {
+            sweetnessScore += sweetValue
+
+            if (sweetnessScore >= mid) {
+                fedPeople++
+                sweetnessScore = 0
+            }
+        }
+        if (fedPeople >= chunks) left = mid
+        else {
+            right = mid - 1
+        }
+    }
+    return left
+}
+
+// Given an integer array nums and an integer k, split nums into k non-empty subarrays such that the largest sum of any subarray is minimized.
+
+// Return the minimized largest sum of the split.
+
+// A subarray is a contiguous part of the array.
+
+// Example 1:
+
+// Input: nums = [7,2,5,10,8], k = 2
+// Output: 18
+// Explanation: There are four ways to split nums into two subarrays.
+// The best way is to split it into [7,2,5] and [10,8], where the largest sum among the two subarrays is only 18.
+
+// https://leetcode.com/problems/split-array-largest-sum/description/
+
+function splitArray(nums, k) {
+    function check(value) {
+        let sum = 0
+        let numOfSplits = 0
+        for (number of nums) {
+            if (sum + number <= value) sum += number
+            else {
+                sum = number
+                numOfSplits++
+            }
+        }
+        return numOfSplits + 1 <= k
+    }
+
+    let left = Math.max(...nums)
+    let right = nums.reduce((acc, curr) => acc + curr)
+    let minimumLargestSplitSum = 0
+
+    while (left <= right) {
+        const mid = Math.floor((right + left) / 2)
+        if (check(mid)) {
+            right = mid - 1
+            minimumLargestSplitSum = mid
+        }
+        else {
+            left = mid + 1
+        }
+    }
+    return minimumLargestSplitSum
+}
